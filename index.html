@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etsy Fee Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: #ffffff;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #000;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <h1>Etsy Fee Calculator</h1>
+        
+        <div class="form-group">
+            <label for="salePrice">Sale Price ($):</label>
+            <input type="number" id="salePrice" placeholder="e.g., 20" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="shippingCost">Shipping Cost ($):</label>
+            <input type="number" id="shippingCost" placeholder="e.g., 5" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity Sold:</label>
+            <input type="number" id="quantity" placeholder="e.g., 1" value="1">
+        </div>
+
+        <button onclick="calculateEtsyFees()">Calculate</button>
+
+        <div class="result">
+            <h2>Results:</h2>
+            <p><strong>Total Sale Price:</strong> <span id="totalPrice">0</span> $</p>
+            <p><strong>Transaction Fee (6.5%):</strong> <span id="transactionFee">0</span> $</p>
+            <p><strong>Payment Processing Fee (3% + $0.25):</strong> <span id="processingFee">0</span> $</p>
+            <p><strong>Listing Fee:</strong> <span id="listingFee">0.20</span> $</p>
+            <p><strong>Total Fees:</strong> <span id="totalFees">0</span> $</p>
+            <p><strong>Your Earnings:</strong> <span id="earnings">0</span> $</p>
+        </div>
+
+        <div class="info">
+            <p>This calculator includes listing, transaction, and payment processing fees based on the given inputs.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to calculate Etsy fees
+        function calculateEtsyFees() {
+            const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
+            const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const totalSale = (salePrice + shippingCost) * quantity;
+
+            // Etsy fees
+            const transactionFee = totalSale * 0.065;
+            const processingFee = (totalSale * 0.03) + 0.25;
+            const listingFee = 0.20 * quantity;
+            const totalFees = transactionFee + processingFee + listingFee;
+
+            // Earnings calculation
+            const earnings = totalSale - totalFees;
+
+            // Update result fields
+            document.getElementById('totalPrice').textContent = totalSale.toFixed(2);
+            document.getElementById('transactionFee').textContent = transactionFee.toFixed(2);
+            document.getElementById('processingFee').textContent = processingFee.toFixed(2);
+            document.getElementById('totalFees').textContent = totalFees.toFixed(2);
+            document.getElementById('earnings').textContent = earnings.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>
